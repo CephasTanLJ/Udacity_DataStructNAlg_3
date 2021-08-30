@@ -1,8 +1,9 @@
 class RouteTrieNode:
-    def __init__(self, path):
+    def __init__(self, path, handler=None):
         self.path = path
         self.children = dict()
         self.absolutePath = None
+        self.handler=handler
 
     def insert(self, path):
         if path not in self.children:
@@ -12,15 +13,19 @@ class RouteTrieNode:
     def set_absolutePath(self, prefix):
         self.absolutePath = f'{prefix}{self.path}/'
 
+    def set_handler(self, handler):
+        self.handler = handler
+
     def __repr__(self):
         '''Node path, child node(s)'''
-        return f'Node({self.absolutePath}, child_nodes={[i for i in self.children.keys()]})'
+        return f'Node({self.absolutePath}, handler= {self.handler}, child_nodes={[i for i in self.children.keys()]})'
 
 
 
 class RouteTrie:
-    def __init__(self):
+    def __init__(self, rootHandler=None):
         self.root = RouteTrieNode('')
+        self.root.set_handler(rootHandler)
         self.root.set_absolutePath('')
 
     def insert(self, longPath):
@@ -33,6 +38,7 @@ class RouteTrie:
             else:
                 tracerNode.insert(path)
                 tracerNode = tracerNode.children[path]
+
 
     def find(self, longPath):
         paths = longPath.split('/')
@@ -62,30 +68,42 @@ class RouteTrie:
 
 
 class Router:
-    def __init__(self):
-        self.trie = RouteTrie()
+    def __init__(self, root_handler=None):
+        self.trie = RouteTrie(root_handler)
         self.handler = None
 
-    def add_handler(self, handler):
+    def add_handler(self, longPath, handler):
         '''What does a handler do?'''
-        self.handler = handler
+        self.trie.insert(longPath)
+        self.trie.find(longPath).set_handler(handler)
 
-    def lookup(self, path):
-        '''Am I supposed to return the node of the given path?'''
-        return self.trie.find(path)
+    def lookup(self, longPath):
+        '''returns the handler.'''
+        pathNode = self.trie.find(longPath)
+        if pathNode is not None:
+            print(pathNode.handler)
+            return pathNode.handler # for my assert test
+        else:
+            print(None)
+            return None
 
-    def split_path(self):
-        pass
+    def split_path(self, longPath):
+        return list(filter(lambda x: x != '', longPath.split('/')))
 
 
 
-route1 = RouteTrie()
-route1.insert('home/users/user1')
-route1.insert('home/users/user2')
-route1.insert('home/bin/')
-route1.insert('home/bin2/')
-# a.root.children['home'].children
 
-print(route1.find('/home/users'))
-print(route1.find('/home/bin'))
+def test():
+    # Here are some test cases and expected outputs you can use to test your implementation
+
+    # create the router and add a route
+    router = Router("root handler") # remove the 'not found handler' if you did not implement this
+    router.add_handler("/home/about", "about handler")  # add a route
+
+    # some lookups with the expected output
+    assert router.lookup("/") == 'root handler' # should print 'root handler'
+    assert router.lookup("/home") == None # should print 'not found handler' or None if you did not implement one
+    assert router.lookup("/home/about") == 'about handler' # should print 'about handler'
+    assert router.lookup("/home/about/") == 'about handler' # should print 'about handler' or None if you did not handle trailing slashes
+    assert router.lookup("/home/about/me") == None # should print 'not found handler' or None if you did not implement one
 
