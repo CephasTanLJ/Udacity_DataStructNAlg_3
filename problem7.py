@@ -67,10 +67,12 @@ class Router:
         self.handler = None
 
     def add_handler(self, handler):
+        '''What does a handler do?'''
         self.handler = handler
 
-    def lookup(self):
-        pass
+    def lookup(self, path):
+        '''Am I supposed to return the node of the given path?'''
+        return self.trie.find(path)
 
     def split_path(self):
         pass
@@ -86,3 +88,4 @@ route1.insert('home/bin2/')
 
 print(route1.find('/home/users'))
 print(route1.find('/home/bin'))
+
