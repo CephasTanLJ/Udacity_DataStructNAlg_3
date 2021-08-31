@@ -38,10 +38,14 @@ def merge(left_arr, right_arr):
 
 
 def assign(sorted_array):
+    if len(sorted_array) == 0:
+        return None
     left_placeholder = 1
     right_placeholder = 1
     output = [0,0]
     for idx, value in enumerate(sorted_array):
+        if type(value) is not int:
+            return None
         if idx % 2 != 0:
             output[0] += left_placeholder*value
             left_placeholder *= 10
@@ -73,13 +77,29 @@ def rearrange_digits(input_list):
     return assign(sorted_array)
 
 
-def test_function(test_case):
-    output = rearrange_digits(test_case[0])
-    solution = test_case[1]
-    if sum(output) == sum(solution):
-        print("Pass")
-    else:
-        print("Fail")
 
-test_function([[1, 2, 3, 4, 5], [542, 31]])
-test_case = [[4, 6, 2, 5, 9, 8], [964, 852]]
+def testEdgeCase1():
+    '''test if empty list works.'''
+    return rearrange_digits([])
+
+def testEdgeCase2():
+    return rearrange_digits(['a','b','c'])
+
+
+# def test_function(test_case):
+#     output = rearrange_digits(test_case[0])
+#     solution = test_case[1]
+#     if sum(output) == sum(solution):
+#         print("Pass")
+#     else:
+#         print("Fail")
+
+# test_case = [[4, 6, 2, 5, 9, 8], [964, 852]]
+# test_function([[1, 2, 3, 4, 5], [542, 31]])
+def testUdacity():
+    assert rearrange_digits([4, 6, 2, 5, 9, 8]) == [964, 852], 'Udacity data test is not working!'
+
+if __name__ == '__main__':
+    assert testEdgeCase1() == None, f'Empty input array should return None but {testEdgeCase1()} was returned'
+    assert testEdgeCase2() == None, 'Input array with non integer elements should return None!'
+    testUdacity()

@@ -64,6 +64,9 @@ def searchlist(input_list, number, left_bound, right_bound):
 
 
 def rotated_array_search(input_list, number):
+    if len(input_list) == 0 or type(number) is not int:
+        return None
+
     last_idx = len(input_list)-1
     min_idx = minIdxFinder(input_list,0,last_idx)   # index of the min value
     max_idx = min_idx - 1                           # index of the max value
@@ -88,7 +91,21 @@ def test_function(test_case):
         print("Fail")
 
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 6])
-test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
-test_function([[6, 7, 8, 1, 2, 3, 4], 8])
-test_function([[6, 7, 8, 1, 2, 3, 4], 1])
-test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+
+def testEdgeCase1():
+    '''Empty array used'''
+    rotated_array_search([], 1)
+
+def testEdgeCase2():
+    '''Input contains non-integers'''
+    rotated_array_search([1,2,3,4], 'a')
+
+
+if __name__ == '__main__':
+    test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
+    test_function([[6, 7, 8, 1, 2, 3, 4], 8])
+    test_function([[6, 7, 8, 1, 2, 3, 4], 1])
+    test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+    testEdgeCase1()
+    testEdgeCase2()
+

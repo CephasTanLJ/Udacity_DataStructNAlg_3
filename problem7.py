@@ -106,3 +106,21 @@ def test():
     assert router.lookup("/home/about/") == 'about handler' # should print 'about handler' or None if you did not handle trailing slashes
     assert router.lookup("/home/about/me") == None # should print 'not found handler' or None if you did not implement one
 
+def testEdgeCase1():
+    '''If multiple // are returned between path, ignore the extra //'''
+    router = Router("root handler")  # remove the 'not found handler' if you did not implement this
+    router.add_handler("/home/about", "about handler")  # add a route
+    router.add_handler("/home//about",'new handler')
+    assert router.lookup("/home//about") == 'new handler', 'add handler did not ignore the extra "/" in the add_handler method'
+
+
+def testEdgeCase2():
+    '''PAth do not exist'''
+    router = Router("root handler")  # remove the 'not found handler' if you did not implement this
+    router.add_handler("/home/about", "about handler")  # add a route
+    assert router.lookup("PathThatDoNotExists") == None, f'Router lookup path that do not exists did not return None, {router.lookup("PathThatDoNotExists")} was returned instead.'
+
+if __name__ == '__main__':
+    testEdgeCase1()
+    testEdgeCase2
+    test()
