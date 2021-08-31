@@ -70,7 +70,6 @@ class RouteTrie:
 class Router:
     def __init__(self, root_handler=None):
         self.trie = RouteTrie(root_handler)
-        self.handler = None
 
     def add_handler(self, longPath, handler):
         '''What does a handler do?'''
