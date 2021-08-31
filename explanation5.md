@@ -20,8 +20,20 @@ O(1) time complexity to retrieve child nodes.
 >> 3.`self.is_word` - bool attribute to identify if this letter/node is the last letter/node of a word.
 > 
 >> **Methods**\
->> 1.`self.insert()` - Insert a new TrieNode in the children of this node instance. Time complexity = O(1)\
->> 2.`self.suffixes()` - Return suffixes given this instance node. Time complexity = O(NumberOfAvailableSuffix*LengthOfSuffixes)\
+>> 1.`self.insert()` - Insert a new TrieNode in the children of this node instance.\ 
+>>>Only a single node is create at a time. Therefore, the time and space used is constant.\  
+>>>Time complexity = `O(1)`\
+>>> Space complexity = `O(1)`
+> 
+>> 2.`self.suffixes()` - Return suffixes given this instance node.
+>>> This method traverse all available child nodes from this instance. This is equivalent to the 
+>>> of branches of each node number of available suffix (N). Within each path, we also need to traverse the depth
+>>> of the node which is similar to the length of each suffixes (L). Therefore,
+>>> the time complexity is `O(N*L)`.
+>>> Since this is a recursive function, vraiables are reused - space complexity is constant.\
+>>>Time complexity = `O(N*L)`\
+>>>Space complexity = O(1)
+> 
 >> 3.`self.__repr__()` - Represent the Node as `Node(parent, child(ren))`
 
 >**Trie Class**
@@ -29,5 +41,15 @@ O(1) time complexity to retrieve child nodes.
 >>`self.root`
 > 
 >> **Methods**\
->> 1.`self.insert()` - Insert a word into a trie (when word alr there no new nodes are created). Time complexity O(n) \
->> 2.`self.find()` - Given a prefix find all available suffix. Time complexity O(PrefixLength*NumberOfNodeBranches).
+>> 1.`self.insert()` - Insert a word into a trie (when word alr there no new nodes are created). 
+>>> For every letter of the word, a Node is created (or inserted). Since Node creation is `O(1)`, 
+>>> this means that the time complexity is mainly dependent on the length of the word. Therefore,
+>>> the time complexity is `O(n)`. The additional space is also dependent on the number of letters
+>>> in the inserted word. Henece, Space complexity is also`O(n)`.\
+>>> Time complexity = O(n) \
+>>> Space complexity = O(n) 
+> 
+>> 2.`self.find()` - Given a prefix find return the node of the final letter of the prefix. 
+>>> This method traverse every letter of the prefix down the trie starting from the root.\
+>>> Time complexity = `O(n)`\
+>>> Space complexity = `O(1)`
