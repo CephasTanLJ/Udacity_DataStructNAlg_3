@@ -2,7 +2,7 @@ def mergesort(array):
     '''
     Merge sort recursively divides the data set to sort
     uses and iteratively merge the elements of each halved data set.
-    Therefore the time complexity is O(n log n).
+    Therefore the time complexity is O(nlog(n) ).
     :param array:
     :return:
     '''

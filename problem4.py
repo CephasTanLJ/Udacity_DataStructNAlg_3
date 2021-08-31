@@ -2,7 +2,7 @@
 def sort_012(input_list):
     '''
     left_idx tracks the location of 1st 1 and
-    right_idx tracks the location of the last 1.
+    right_idx tracks the location of the 1st 2.
     Using the scanning_idx, this iterates over every element once O(n) and allocate (in-place)
     all 0s to the left of the 1s,
     and all 2s to the right of the 1s.
